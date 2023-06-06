@@ -5,8 +5,12 @@ export default class Entity{
 	coordinates = new Coordinates();
 	state = new State();
 
+	constructor(coordinates){
+		this.coordinates=coordinates;
+	}
+
 	update(){}
-	draw(){}
+	draw(ctx){}
 	handleInput(event){
 		state = this.state.handleInput(this, event);
 	}

@@ -1,3 +1,5 @@
+
+
 export default class Stay extends State{
 	handleInput(entity, event){
 		switch(event){
