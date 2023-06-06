@@ -2,6 +2,7 @@ import TileMap from "./TileMap.js";
 import Hero from "./Hero.js";
 import Coordinates from "./Coordinates.js";
 
+
 export default class Game {
 
 	entities = [];
@@ -9,10 +10,8 @@ export default class Game {
 	//image, coordinates, tileSize
 
 	constructor(tileSize) {
-
 		let tile = new TileMap(tileSize);
 		this.entities = tile.createEntities();
-		//console.log(this.entities);
 		this.tileSize = tileSize;
 		this.heroImg.src = "./img/tiles/player.png";
 		this.hero = new Hero(this.heroImg, new Coordinates(7, 7), this.tileSize);
