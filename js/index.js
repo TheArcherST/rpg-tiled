@@ -10,6 +10,7 @@ const tileMap = new TileMap(tileSize);
 function game() {
 	
 	tileMap.draw(canvas, ctx);
+	
 }
 
 setInterval(game, 1000 / 60);

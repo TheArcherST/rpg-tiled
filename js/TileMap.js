@@ -32,6 +32,7 @@ export default class TileMap {
 
 	draw(canvas, ctx) {
 		this.#drawMap(ctx);
+		this.#drawHero(ctx);
 		this.#createMask(ctx);
 		// this.#rectangle(ctx, this.redBlock, 0, 0, 32, 32);
 	}
@@ -42,9 +43,9 @@ export default class TileMap {
 		ctx.drawImage(this.mapImg, 0, 0);
 	}
 	#drawHero(ctx) {
-		this.mapImg = new Image();
-		this.mapImg.src = "./img/tiles/map.png";
-		ctx.drawImage(this.mapImg, 0, 0);
+		this.playerImg = new Image();
+		this.playerImg.src = "./img/tiles/player.png";
+		ctx.drawImage(this.playerImg, 0, 0, this.tileSize, this.tileSize);
 	}
 
 	#createMask(ctx) {
