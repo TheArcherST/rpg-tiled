@@ -20,10 +20,10 @@ function main() {
 	const ctx = canvas.getContext('2d');
 
 	window.addEventListener('keydown', (event) => {
-		game.handleInput(event);
+		game.handleInput(game, event);
 	})
 	window.addEventListener('keyup', (event) => {
-		game.handleInput(event);
+		game.handleInput(game, event);
 	})
 
 	game.run(ctx, 60);

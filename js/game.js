@@ -19,15 +19,15 @@ export default class Game {
 
 	}
 
-	handleInput(event) {
-		this.hero.handleInput(event);
+	handleInput(game, event) {
+		this.hero.handleInput(game, event);
 	}
 
 	update() {
 		this.entities.forEach(element => {
-			element.update();
+			element.update(this);
 		})
-		this.hero.update();
+		this.hero.update(this);
 	}
 
 	run(ctx, update_rate) {
@@ -35,5 +35,17 @@ export default class Game {
 			this.update()
 			this.draw(ctx)
 		}, 1000/update_rate);
+	}
+
+	getEntitiesAt(coordinates) {
+		let result = [];
+		this.entities.forEach(row => {
+			row.forEach(val => {
+				if (val.coordinates.x === coordinates.x && val.coordinates.y === coordinates.y) {
+					result.push(val)
+				}
+			})
+		})
+		return result;
 	}
 }

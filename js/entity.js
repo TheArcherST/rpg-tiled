@@ -7,19 +7,19 @@ export default class Entity {
 		this.state = new State();
 	}
 
-	update() {
-		this.state.update(this);
+	update(game) {
+		this.state.update(game, this);
 	}
 
 	draw(ctx) { }
 
-	handleInput(event) {
-		let param = this.state.handleInput(this, event);
+	handleInput(game, event) {
+		let param = this.state.handleInput(game, this, event);
 
 		if (param !== undefined) {
-			this.state.exit(this);
+			this.state.exit(game, this);
 			this.state = param;
-			param.enter(this);
+			param.enter(game, this);
 		}
 	}
 }

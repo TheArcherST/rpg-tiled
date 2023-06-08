@@ -2,8 +2,8 @@
 
 export default class State {
 	
-	handleInput(entity, event) { }
-	update(entity) { }
-	enter(entity) { }
-	exit(entity) { }
+	handleInput(game, entity, event) { }
+	update(game, entity) { }
+	enter(game, entity) { }
+	exit(game, entity) { }
 }

@@ -2,7 +2,7 @@ import State from "../../../state.js";
 import Run from "./run.js";
 
 export default class Stay extends State {
-	handleInput(entity, event) {
+	handleInput(game, entity, event) {
 		let direction;
 
 		switch (event.code) {
@@ -27,7 +27,7 @@ export default class Stay extends State {
 		);
 	}
 
-	update(entity) {
+	update(game, entity) {
 
 	}
 }
