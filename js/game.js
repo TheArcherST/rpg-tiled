@@ -1,20 +1,12 @@
-import TileMap from "./TileMap.js";
-import Hero from "./Hero.js";
+import Hero from "./entities/hero/hero.js";
 import Coordinates from "./Coordinates.js";
 
 
 export default class Game {
-
-	entities = [];
-	heroImg = new Image();
-	//image, coordinates, tileSize
-
-	constructor(tileSize) {
-		let tile = new TileMap(tileSize);
-		this.entities = tile.createEntities();
+	constructor(tileSize, entities, hero) {
 		this.tileSize = tileSize;
-		this.heroImg.src = "./img/tiles/player.png";
-		this.hero = new Hero(this.heroImg, new Coordinates(7, 7), this.tileSize);
+		this.entities = entities;
+		this.hero = hero;
 	}
 
 	draw(ctx) {
@@ -36,6 +28,12 @@ export default class Game {
 			element.update();
 		})
 		this.hero.update();
+	}
 
+	run(ctx, update_rate) {
+		setInterval(() => {
+			this.update()
+			this.draw(ctx)
+		}, 1000/update_rate);
 	}
 }
