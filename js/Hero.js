@@ -1,4 +1,5 @@
 import Entity from "./Entity.js";
+import Stay from "./Stay.js";
 
 
 export default class Hero extends Entity {
@@ -6,6 +7,7 @@ export default class Hero extends Entity {
 		super(coordinates);
 		this.tileSize = tileSize;
 		this.Img = image;
+		this.state = new Stay();
 	}
 
 	draw(ctx) {

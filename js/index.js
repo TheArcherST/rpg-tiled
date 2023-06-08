@@ -1,15 +1,27 @@
 import Game from "./Game.js";
 
+const tileSize = 32;
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const game = new Game(tileSize)
 
-function main() {
-	const canvas = document.getElementById('game');
-	const ctx = canvas.getContext('2d');
-	const tileSize = 32;
 
-	const game = new Game(tileSize)
-	setInterval(game.update, 1000 / 60);
-	setInterval(game.draw, 1000 / 60);
+function update() {
+	game.update()
+	game.draw(ctx)
 }
 
+
+function main() {
+	window.addEventListener('keydown', (event) => {
+		game.handleInput(event);
+	})
+	window.addEventListener('keyup', (event) => {
+		//console.log(event.code);
+		game.handleInput(event);
+	})
+
+	setInterval(update, 100);
+}
 
 main()

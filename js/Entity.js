@@ -1,17 +1,25 @@
 import Coordinates from "./Coordinates.js";
 import State from "./State.js";
 
-export default class Entity{
-	coordinates = new Coordinates();
-	state = new State();
+export default class Entity {
 
-	constructor(coordinates){
-		this.coordinates=coordinates;
+
+	constructor(coordinates) {
+		this.coordinates = coordinates;
+		this.state = new State();
 	}
 
-	update(){}
-	draw(ctx){}
-	handleInput(event){
-		state = this.state.handleInput(this, event);
+	update() {
+		this.state.update(this);
+	}
+	draw(ctx) { }
+	handleInput(event) {
+
+		let param = this.state.handleInput(this, event);
+		console.log(event);
+		console.log(this.state);
+		if (param != undefined) {
+			this.state = this.state.handleInput(this, event);
+		}
 	}
 }
