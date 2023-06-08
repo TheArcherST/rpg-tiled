@@ -22,12 +22,21 @@ export default class Game {
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		this.entities.forEach(element => {
 			element.draw(ctx);
-			console.log(element);
+			//console.log(element);
 		});
 		this.hero.draw(ctx);
 
 	}
+
+	handleInput(event) {
+		this.hero.handleInput(event);
+	}
+
 	update() {
+		this.entities.forEach(element => {
+			element.update();
+		})
+		this.hero.update();
 
 	}
 }

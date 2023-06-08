@@ -8,10 +8,23 @@ const tileSize = 32;
 
 const game = new Game(tileSize)
 function gameStart() {
+
+	game.update();
 	game.draw(ctx);
+
 	//tileMap.draw(canvas, ctx);
 
 }
 
-setInterval(gameStart, 1000 / 60);
+window.addEventListener('keydown', (event) => {
+	//console.log(event.code);
+	game.handleInput(event);
+})
+
+window.addEventListener('keyup', (event) => {
+	//console.log(event.code);
+	game.handleInput(event);
+})
+
+setInterval(gameStart, 100);
 
