@@ -1,10 +1,10 @@
 import Entity, {CollisionResult} from "../../entity.js";
-import Default from "./states/default.js";
+import Laying from "./states/laying.js";
 
 
-export default class Barrier extends Entity {
+export default class Mushroom extends Entity {
 	constructor(image, coordinates, tileSize) {
-		super(coordinates, new Default());
+		super(coordinates, new Laying());
 		this.tileSize = tileSize;
 		this.playerImg = image;
 	}
@@ -17,9 +17,5 @@ export default class Barrier extends Entity {
 			this.tileSize,
 			this.tileSize
 		);
-	}
-
-	resolveCollision(game, invadedEntity) {
-		return CollisionResult.NO_WAY;
 	}
 }

@@ -1,16 +1,24 @@
 import Game from "./game.js";
 import GameBuilder from "./game_builder.js";
 import Hero from "./entities/hero/hero.js";
-import Coordinates from "./Coordinates.js";
+import Coordinates from "./coordinates.js";
+import Road from "./entities/road/road.js";
 
 
 
 function createGame() {
 	const tileSize = 32;
-	let tileMap = new GameBuilder(tileSize);
-	let entities = tileMap.createEntities();
-	let hero = tileMap.createHero();
-	return new Game(tileSize, entities, hero);
+	let builder = new GameBuilder(tileSize);
+	let entities = builder.createEntities();
+	let hero = builder.createHero(new Coordinates(7, 7));
+	let roadCoordinates = [];
+	entities.forEach(i => {
+		if (i instanceof Road) {
+			roadCoordinates.push(i.coordinates);
+		}
+	})
+	let spawner = builder.createMushroomSpawner(roadCoordinates);
+	return new Game(tileSize, entities, hero, builder, spawner);
 }
 
 

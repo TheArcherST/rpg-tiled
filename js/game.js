@@ -1,13 +1,15 @@
 import Hero from "./entities/hero/hero.js";
-import Coordinates from "./Coordinates.js";
+import Coordinates from "./coordinates.js";
 import {CollisionResult} from "./entity.js";
 
 
 export default class Game {
-	constructor(tileSize, entities, hero) {
+	constructor(tileSize, entities, hero, builder, spawner) {
 		this.tileSize = tileSize;
 		this.entities = entities;
 		this.hero = hero;
+		this.builder = builder;
+		this.spawner = spawner;
 	}
 
 	draw(ctx) {
@@ -17,7 +19,6 @@ export default class Game {
 			//console.log(element);
 		});
 		this.hero.draw(ctx);
-
 	}
 
 	handleInput(game, event) {
@@ -29,6 +30,7 @@ export default class Game {
 			element.update(this);
 		})
 		this.hero.update(this);
+		this.spawner.update(this);
 	}
 
 	run(ctx, update_rate) {
@@ -65,5 +67,16 @@ export default class Game {
 		} else {
 			return CollisionResult.NO_WAY;
 		}
+	}
+
+	destroyEntity(entity) {
+		const index = this.entities.indexOf(entity);
+		entity.destroy(this);
+		this.entities.splice(index, 1);
+	}
+
+	spawnEntity(entity) {
+		// todo: move events observer subscribe on this level
+		this.entities.push(entity);
 	}
 }

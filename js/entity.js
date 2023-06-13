@@ -1,4 +1,5 @@
 import State from "./state.js";
+import {eventsObserver} from "./eventsObserver.js";
 
 
 export const CollisionResult = {
@@ -7,14 +8,15 @@ export const CollisionResult = {
 }
 
 
-export default class Entity {
-	constructor(coordinates) {
-		this.coordinates = coordinates;
-		this.state = new State();
+export class PhantomEntity {
+	constructor(state=new State()) {
+		this.state = state;
+		eventsObserver.subscribe(this);  // todo: unsubscribe
 	}
 
 	update(game) {
 		this.state.update(game, this);
+		eventsObserver.fetch(this);  // clear events stack is method not had done it itself.
 	}
 
 	draw(ctx) { }
@@ -29,5 +31,17 @@ export default class Entity {
 		}
 	}
 
-	resolveCollision(game, invadedEntity) { return CollisionResult.UNION; }
+	destroy(game) { }
+}
+
+
+export default class Entity extends PhantomEntity {
+	constructor(coordinates, state=new State()) {
+		super(state)
+		this.coordinates = coordinates;
+	}
+
+	resolveCollision(game, invadedEntity) {
+		return this.state.resolveCollision(game, this, invadedEntity);
+	}
 }

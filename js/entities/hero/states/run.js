@@ -1,7 +1,7 @@
 import State from "../../../state.js";
 import Stay from "./stay.js";
 import {CollisionResult} from "../../../entity.js";
-import Coordinates from "../../../Coordinates.js";
+import Coordinates from "../../../coordinates.js";
 
 
 

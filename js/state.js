@@ -6,4 +6,5 @@ export default class State {
 	update(game, entity) { }
 	enter(game, entity) { }
 	exit(game, entity) { }
+	resolveCollision(game, entity, invadedEntity) { }
 }

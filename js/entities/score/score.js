@@ -2,7 +2,7 @@ import Entity, {CollisionResult} from "../../entity.js";
 import Default from "./states/default.js";
 
 
-export default class Barrier extends Entity {
+export default class Score extends Entity {
 	constructor(image, coordinates, tileSize) {
 		super(coordinates, new Default());
 		this.tileSize = tileSize;
@@ -17,9 +17,5 @@ export default class Barrier extends Entity {
 			this.tileSize,
 			this.tileSize
 		);
-	}
-
-	resolveCollision(game, invadedEntity) {
-		return CollisionResult.NO_WAY;
 	}
 }
