@@ -1,6 +1,12 @@
 import State from "./state.js";
 
 
+export const CollisionResult = {
+	UNION: 'UNION',
+	NO_WAY: 'NO_WAY',
+}
+
+
 export default class Entity {
 	constructor(coordinates) {
 		this.coordinates = coordinates;
@@ -22,4 +28,6 @@ export default class Entity {
 			param.enter(game, this);
 		}
 	}
+
+	resolveCollision(game, invadedEntity) { return CollisionResult.UNION; }
 }

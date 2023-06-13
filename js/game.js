@@ -1,5 +1,6 @@
 import Hero from "./entities/hero/hero.js";
 import Coordinates from "./Coordinates.js";
+import {CollisionResult} from "./entity.js";
 
 
 export default class Game {
@@ -39,13 +40,30 @@ export default class Game {
 
 	getEntitiesAt(coordinates) {
 		let result = [];
-		this.entities.forEach(row => {
-			row.forEach(val => {
-				if (val.coordinates.x === coordinates.x && val.coordinates.y === coordinates.y) {
-					result.push(val)
-				}
-			})
+		this.entities.forEach(val => {
+			if (val.coordinates.x === coordinates.x && val.coordinates.y === coordinates.y) {
+				result.push(val)
+			}
 		})
 		return result;
+	}
+
+	resolveCollision(entity, coordinates) {
+		let collisionWith = this.getEntitiesAt(coordinates);
+		let isUnion = true;
+		collisionWith.forEach(i => {
+			let result = i.resolveCollision(this, entity);
+			if (result === CollisionResult.UNION) {
+			} else if (result === CollisionResult.NO_WAY) {
+				isUnion = false;
+				return null;
+			}
+		})
+
+		if (isUnion) {
+			return CollisionResult.UNION;
+		} else {
+			return CollisionResult.NO_WAY;
+		}
 	}
 }

@@ -1,17 +1,45 @@
 import State from "../../../state.js";
 import Stay from "./stay.js";
+import {CollisionResult} from "../../../entity.js";
+import Coordinates from "../../../Coordinates.js";
+
+
+
+function modCeil(n) {
+	if (n >= 0) {
+		return Math.ceil(n);
+	} else {
+		return Math.floor(n);
+	}
+}
+
+
+function maximizeOffset(offset) {
+	return new Coordinates(
+		modCeil(offset.x), modCeil(offset.y)
+	)
+}
+
+
+function coordsSum(coord1, coord2) {
+	return new Coordinates(
+		coord1.x + coord2.x,
+		coord1.y + coord2.y
+	);
+}
 
 
 export default class Run extends State {
 	constructor(
 		direction,
 		speed=1,
-		startPosition
+		initialCoordinates,
 	) {
 		super();
 		this.direction = direction;
 		this.speed = speed;
-		this.startPosition = startPosition;
+		this.offset =  new Coordinates(0,0);
+		this.initialCoordinates = initialCoordinates;
 	}
 	handleInput(game, entity, event) {
 		if (event.type === "keyup") {
@@ -20,23 +48,30 @@ export default class Run extends State {
 	}
 
 	update(game, entity) {
+		let currentOffset = Object.assign({}, this.offset);
+
 		switch (this.direction) {
 			case 'up':
-				this.startPosition.y -= this.speed;
+				currentOffset.y -= this.speed;
 				break;
 			case 'down':
-				this.startPosition.y += this.speed;
+				currentOffset.y += this.speed;
 				break;
 			case 'left':
-				this.startPosition.x -= this.speed;
+				currentOffset.x -= this.speed;
 				break;
 			case 'right':
-				this.startPosition.x += this.speed;
+				currentOffset.x += this.speed;
 				break;
 		}
 
-		entity.coordinates.x = Math.round(this.startPosition.x);
-		entity.coordinates.y = Math.round(this.startPosition.y);
+		let maximizedOffset = maximizeOffset(currentOffset);
+		let currentCoordinate = coordsSum(this.initialCoordinates, maximizedOffset);
+		let collisionResult = game.resolveCollision(this, currentCoordinate);
+		if (collisionResult === CollisionResult.UNION) {
+			this.offset = currentOffset;
+			entity.coordinates = currentCoordinate;
+		}
 	}
 
 	enter(game, entity) {

@@ -1,4 +1,4 @@
-import Entity from "../../entity.js";
+import Entity, {CollisionResult} from "../../entity.js";
 
 
 export default class Barrier extends Entity {
@@ -16,5 +16,9 @@ export default class Barrier extends Entity {
 			this.tileSize,
 			this.tileSize
 		);
+	}
+
+	resolveCollision(game, invadedEntity) {
+		return CollisionResult.NO_WAY;
 	}
 }
