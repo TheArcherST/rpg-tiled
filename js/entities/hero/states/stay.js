@@ -21,8 +21,8 @@ export default class Stay extends State {
 		}
 
 		return new Run(
-			direction,
-			0.3,
+			[direction],
+			0.2,
 			Object.assign({}, entity.coordinates),
 		);
 	}

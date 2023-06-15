@@ -31,26 +31,57 @@ function coordsSum(coord1, coord2) {
 
 export default class Run extends State {
 	constructor(
-		direction,
+		directions,
 		speed=1,
 		initialCoordinates,
 	) {
 		super();
-		this.direction = direction;
+		this.directions = directions;
 		this.speed = speed;
 		this.offset =  new Coordinates(0,0);
 		this.initialCoordinates = initialCoordinates;
 	}
 	handleInput(game, entity, event) {
+		let direction;
+		switch (event.code) {
+			case 'KeyW':
+				direction = 'up';
+				break;
+			case 'KeyS':
+				direction = 'down';
+				break;
+			case 'KeyA':
+				direction = 'left';
+				break;
+			case 'KeyD':
+				direction = 'right';
+				break;
+			default:
+				return undefined;
+		}
+
 		if (event.type === "keyup") {
-			return new Stay();
+			let index = this.directions.indexOf(direction);
+			if (index !== -1) {
+				this.directions.splice(index, 1);
+			}
+			if (this.directions.length === 0) {
+				return new Stay();
+			}
+		} else if (event.type  === "keydown") {
+			if (!this.directions.includes(direction)) {
+				this.directions.push(direction);
+			}
 		}
 	}
 
 	update(game, entity) {
 		let currentOffset = Object.assign({}, this.offset);
 
-		switch (this.direction) {
+		let direction = this.directions.pop()
+		this.directions.unshift(direction)
+
+		switch (direction) {
 			case 'up':
 				currentOffset.y -= this.speed;
 				break;
