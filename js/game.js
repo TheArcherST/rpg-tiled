@@ -3,15 +3,17 @@ import Coordinates from "./coordinates.js";
 import {CollisionResult} from "./entity.js";
 
 
-function isCoordinateInArray(coord, array) {
-	let flag = false;
-	array.forEach(i => {
+function getCoordTargetPos(coord, areaInfo) {
+	let res = null;
+	let n = 0;
+	Array.from(areaInfo.values()).forEach(i => {
 		if (i.x === coord.x && i.y === coord.y) {
-			flag = true;
+			res = Array.from(areaInfo.keys())[n];
 			return null;
 		}
+		n++;
 	})
-	return flag;
+	return res;
 }
 
 
@@ -34,16 +36,18 @@ export default class Game {
 
 	draw(ctx) {
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-		let arr = this.camera.getCoordinatesToBeDrown();
-		let c = 0;
-		this.entities.forEach(element => {
-			if (isCoordinateInArray(element.coordinates, arr)) {
-				element.draw(ctx);
-				c++
+		let drawAreaInfo = this.camera.getDrawAreaInfo();
+		[...this.entities, this.hero].forEach(entity => {
+			if ("coordinates" in entity) {
+				let coord = getCoordTargetPos(entity.coordinates, drawAreaInfo);
+				if (coord !== null) {
+					let old = entity.coordinates;
+					entity.coordinates = coord;
+					entity.draw(ctx);
+					entity.coordinates = old;
+				}
 			}
 		});
-		console.log(c)
-		this.hero.draw(ctx);
 	}
 
 	handleInput(game, event) {

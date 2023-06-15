@@ -15,15 +15,24 @@ export default class Camera extends Entity {
 	draw(ctx) {
 	}
 
-	getCoordinatesToBeDrown() {
-		let res = [];
+	getDrawAreaInfo() {
+		let res = new Map();
+		let startY = this.coordinates.y - Math.floor(this.sizeY / 2);
+		let startX = this.coordinates.x - Math.floor(this.sizeX / 2);
 
-		for (let y = this.coordinates.y - Math.floor(this.sizeY / 2);
+		for (let y = startY;
 			 y <= this.coordinates.y + Math.floor(this.sizeY / 2); y++) {
-
-			for (let x = this.coordinates.x - Math.floor(this.sizeX / 2);
+			for (let x = startX;
 				 x <= this.coordinates.x + Math.floor(this.sizeX / 2); x++) {
-				res.push(new Coordinates(x, y))
+
+				res.set(
+					new Coordinates(
+						x-this.coordinates.x + Math.floor(this.sizeX / 2),
+						y-this.coordinates.y + Math.floor(this.sizeY / 2)
+					),
+					new Coordinates(x, y),
+
+				)
 			}
 		}
 

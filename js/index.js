@@ -18,7 +18,7 @@ function createGame() {
 		}
 	})
 	let spawner = builder.createMushroomSpawner(roadCoordinates);
-	let camera = builder.createCamera(hero.coordinates, hero, 9, 9);
+	let camera = builder.createCamera(hero.coordinates, hero, 15, 15);
 	return new Game(tileSize, entities, hero, builder, spawner, camera);
 }
 
