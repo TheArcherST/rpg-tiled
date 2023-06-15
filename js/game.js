@@ -3,21 +3,46 @@ import Coordinates from "./coordinates.js";
 import {CollisionResult} from "./entity.js";
 
 
+function isCoordinateInArray(coord, array) {
+	let flag = false;
+	array.forEach(i => {
+		if (i.x === coord.x && i.y === coord.y) {
+			flag = true;
+			return null;
+		}
+	})
+	return flag;
+}
+
+
 export default class Game {
-	constructor(tileSize, entities, hero, builder, spawner) {
+	constructor(
+		tileSize,
+		entities,
+		hero,
+		builder,
+		spawner,
+		camera,
+	) {
 		this.tileSize = tileSize;
 		this.entities = entities;
 		this.hero = hero;
 		this.builder = builder;
 		this.spawner = spawner;
+		this.camera = camera;
 	}
 
 	draw(ctx) {
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		let arr = this.camera.getCoordinatesToBeDrown();
+		let c = 0;
 		this.entities.forEach(element => {
-			element.draw(ctx);
-			//console.log(element);
+			if (isCoordinateInArray(element.coordinates, arr)) {
+				element.draw(ctx);
+				c++
+			}
 		});
+		console.log(c)
 		this.hero.draw(ctx);
 	}
 
@@ -31,6 +56,7 @@ export default class Game {
 		})
 		this.hero.update(this);
 		this.spawner.update(this);
+		this.camera.update(this);
 	}
 
 	run(ctx, update_rate) {
@@ -76,7 +102,6 @@ export default class Game {
 	}
 
 	spawnEntity(entity) {
-		// todo: move events observer subscribe on this level
 		this.entities.push(entity);
 	}
 }

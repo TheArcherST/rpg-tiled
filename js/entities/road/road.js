@@ -10,6 +10,5 @@ export default class Road extends Entity {
 
 	draw(ctx) {
 		ctx.drawImage(this.Img, this.coordinates.x * this.tileSize, this.coordinates.y * this.tileSize, this.tileSize, this.tileSize);
-		//console.log("road print")
 	}
 }

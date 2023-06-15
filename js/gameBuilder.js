@@ -4,6 +4,7 @@ import Road from "./entities/road/road.js";
 import Hero from "./entities/hero/hero.js";
 import Mushroom from "./entities/mushroom/mushroom.js";
 import MushroomsSpawner from "./entities/mushroomsSpawner/mushroomsSpawner.js";
+import Camera from "./entities/camera/camera.js";
 
 
 export default class GameBuilder {
@@ -89,5 +90,9 @@ export default class GameBuilder {
 
 	createMushroomSpawner(possibleCoordinates) {
 		return new MushroomsSpawner(possibleCoordinates);
+	}
+
+	createCamera(coordinates, boundedEntity, sizeX, sizeY) {
+		return new Camera(coordinates, boundedEntity, sizeX, sizeY);
 	}
 }

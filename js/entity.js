@@ -1,5 +1,4 @@
 import State from "./state.js";
-import {eventsObserver} from "./eventsObserver.js";
 
 
 export const CollisionResult = {
@@ -9,14 +8,12 @@ export const CollisionResult = {
 
 
 export class PhantomEntity {
-	constructor(state=new State()) {
-		this.state = state;
-		eventsObserver.subscribe(this);  // todo: unsubscribe
+	constructor(initialState) {
+		this.state = initialState;
 	}
 
 	update(game) {
 		this.state.update(game, this);
-		eventsObserver.fetch(this);  // clear events stack is method not had done it itself.
 	}
 
 	draw(ctx) { }

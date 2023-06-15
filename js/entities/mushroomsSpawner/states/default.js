@@ -14,7 +14,6 @@ export default class Default extends State {
 
 	update(game) {
 		this.counter++;
-		console.log(this.counter)
 		if (this.counter > 100) {
 			this.counter = 0;
 			this.#spawn(game);

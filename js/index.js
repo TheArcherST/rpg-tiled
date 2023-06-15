@@ -1,5 +1,5 @@
 import Game from "./game.js";
-import GameBuilder from "./game_builder.js";
+import GameBuilder from "./gameBuilder.js";
 import Hero from "./entities/hero/hero.js";
 import Coordinates from "./coordinates.js";
 import Road from "./entities/road/road.js";
@@ -18,7 +18,8 @@ function createGame() {
 		}
 	})
 	let spawner = builder.createMushroomSpawner(roadCoordinates);
-	return new Game(tileSize, entities, hero, builder, spawner);
+	let camera = builder.createCamera(hero.coordinates, hero, 9, 9);
+	return new Game(tileSize, entities, hero, builder, spawner, camera);
 }
 
 
