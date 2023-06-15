@@ -106,6 +106,6 @@ export default class Run extends State {
 	}
 
 	enter(game, entity) {
-		this.update(game, entity);
+		// this.update(game, entity);
 	}
 }
