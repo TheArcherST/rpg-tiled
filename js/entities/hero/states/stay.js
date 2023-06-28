@@ -27,13 +27,14 @@ export default class Stay extends State {
 			targetPosition =  game.normalizePageCoordinates(
 				new Coordinates(event.pageX, event.pageY)
 			);
-			return new RunTo(
-				targetPosition,
-				0.10,
-				Object.assign({}, entity.coordinates),
-			)
+			if (targetPosition !== null) {
+				return new RunTo(
+					targetPosition,
+					0.10,
+					Object.assign({}, entity.coordinates),
+				)
+			}
 		}
-
 		if (direction !== null) {
 			return new Run(
 				[direction],

@@ -32,7 +32,6 @@ export default class RunTo extends State {
 		let cameraPositionDiff = coordsSub(this.cameraPosition, game.camera.coordinates);
 		this.cameraPosition = Object.assign({}, game.camera.coordinates);
 		this.targetPosition = coordsSub(this.targetPosition, cameraPositionDiff);
-		console.log(cameraPositionDiff);
 		let currentOffset = Object.assign({}, this.offset);
 		let diff = coordsSub(this.targetPosition, entity.coordinates);
 		let absDiff = coordsMapF(coordsSub(this.targetPosition, entity.coordinates), Math.abs);
