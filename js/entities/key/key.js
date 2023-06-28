@@ -2,7 +2,7 @@ import Entity, {CollisionResult} from "../../entity.js";
 import Laying from "./states/laying.js";
 
 
-export default class Mushroom extends Entity {
+export default class Key extends Entity {
 	constructor(image, coordinates, tileSize) {
 		super(coordinates, new Laying());
 		this.tileSize = tileSize;

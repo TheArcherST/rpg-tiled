@@ -18,6 +18,8 @@ export default class Stay extends State {
 			case 'KeyD':
 				direction = 'right';
 				break;
+			default:
+				return undefined;
 		}
 
 		return new Run(

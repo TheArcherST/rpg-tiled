@@ -19,12 +19,13 @@ export class PhantomEntity {
 	draw(ctx) { }
 
 	handleInput(game, event) {
-		let param = this.state.handleInput(game, this, event);
+		let state = this.state.handleInput(game, this, event);
 
-		if (param !== undefined) {
+		if (state !== undefined) {
+			console.log(state);
 			this.state.exit(game, this);
-			this.state = param;
-			param.enter(game, this);
+			this.state = state;
+			state.enter(game, this);
 		}
 	}
 

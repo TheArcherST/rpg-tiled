@@ -1,19 +1,15 @@
-import Entity, {CollisionResult} from "../../entity.js";
+import {CollisionResult, PhantomEntity} from "../../entity.js";
 import Default from "./states/default.js";
+import Coordinates from "../../coordinates.js";
 
 
-export default class Score extends Entity {
-	constructor(image, coordinates, tileSize) {
-		super(coordinates, new Default());
+export default class Score extends PhantomEntity {
+	constructor() {
+		super(new Default(0));
 	}
 
 	draw(ctx) {
-		ctx.drawImage(
-			this.playerImg,
-			this.coordinates.x * this.tileSize,
-			this.coordinates.y * this.tileSize,
-			this.tileSize,
-			this.tileSize
-		);
+		let e = document.getElementById("score_value");
+		e.innerText = this.state.score;
 	}
 }

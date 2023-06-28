@@ -10,6 +10,7 @@ export default class Laying extends State {
 
 	resolveCollision(game, entity, invadedEntity) {
 		game.destroyEntity(entity);
+		game.notifyKeyPick();
 		return super.resolveCollision(game, entity, invadedEntity);
 	}
 }

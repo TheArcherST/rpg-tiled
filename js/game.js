@@ -1,6 +1,6 @@
 import Hero from "./entities/hero/hero.js";
 import Coordinates from "./coordinates.js";
-import {CollisionResult} from "./entity.js";
+import Entity, {CollisionResult, PhantomEntity} from "./entity.js";
 
 
 export function getCoordTargetPos(coord, areaInfo) {
@@ -51,6 +51,7 @@ export default class Game {
 		builder,
 		spawner,
 		camera,
+		score,
 	) {
 		this.tileSize = tileSize;
 		this.entities = entities;
@@ -58,6 +59,7 @@ export default class Game {
 		this.builder = builder;
 		this.spawner = spawner;
 		this.camera = camera;
+		this.score = score;
 	}
 
 	draw(ctx) {
@@ -65,8 +67,8 @@ export default class Game {
 		ctx.imageSmoothingEnabled = false;
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		let drawAreaInfo = this.camera.getDrawAreaInfo(this);
-		[...this.entities, this.hero].forEach(entity => {
-			if ("coordinates" in entity) {
+		[...this.entities, this.hero, this.score].forEach(entity => {
+			if (entity instanceof Entity) {
 				let coord = getCoordTargetPos(entity.coordinates, drawAreaInfo);
 				if (coord !== null) {
 					let old = entity.coordinates;
@@ -74,6 +76,10 @@ export default class Game {
 					entity.draw(ctx);
 					entity.coordinates = old;
 				}
+			} else if (entity instanceof PhantomEntity) {
+				entity.draw(ctx);
+			} else {
+				throw Error(entity);
 			}
 		});
 		ctx.imageSmoothingEnabled = old;
@@ -139,5 +145,9 @@ export default class Game {
 
 	spawnEntity(entity) {
 		this.entities.push(entity);
+	}
+
+	notifyKeyPick() {
+		this.score.state.notifyScoreIncrease();
 	}
 }

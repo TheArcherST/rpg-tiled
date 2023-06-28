@@ -2,9 +2,10 @@ import Coordinates from "./coordinates.js";
 import Barrier from "./entities/barrier/barrier.js";
 import Road from "./entities/road/road.js";
 import Hero from "./entities/hero/hero.js";
-import Mushroom from "./entities/mushroom/mushroom.js";
+import Key from "./entities/key/key.js";
 import MushroomsSpawner from "./entities/mushroomsSpawner/mushroomsSpawner.js";
 import Camera from "./entities/camera/camera.js";
+import Score from "./entities/score/score.js";
 
 
 export default class GameBuilder {
@@ -12,7 +13,7 @@ export default class GameBuilder {
 		this.tileSize = tileSize;
 
 		this.heroImg = new Image();
-		this.heroImg.src = './img/tiles/player.png'
+		this.heroImg.src = './img/tiles/hero.png'
 
 		this.barrierImg = new Image();
 		this.barrierImg.src = "./img/tiles/barrier1.png";
@@ -68,7 +69,7 @@ export default class GameBuilder {
 	}
 
 	createMushroom(coordinates) {
-		return new Mushroom(
+		return new Key(
 			this.mushrromImg,
 			coordinates,
 			this.tileSize,
@@ -89,5 +90,9 @@ export default class GameBuilder {
 
 	createWall(coordinates) {
 		return new Barrier(this.barrierImg, coordinates, this.tileSize);
+	}
+
+	createScore() {
+		return new Score();
 	}
 }

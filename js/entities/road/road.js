@@ -4,8 +4,6 @@ export default class Road extends Entity {
 		super(coordinates);
 		this.tileSize = tileSize;
 		this.Img = image;
-		// this.playerImg.src = "./img/tiles/player.png";
-
 	}
 
 	draw(ctx) {

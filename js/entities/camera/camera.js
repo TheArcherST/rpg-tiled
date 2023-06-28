@@ -1,7 +1,6 @@
 import Entity from "../../entity.js";
 import Default from "./states/default.js";
 import Coordinates from "../../coordinates.js";
-import {getExtremeCoordinates, getCoordTargetPos} from "../../game.js";
 
 
 export default class Camera extends Entity {
@@ -16,20 +15,7 @@ export default class Camera extends Entity {
 	draw(ctx) {
 	}
 
-	normalizeFrame(frame, filledCoordinates) {
-		/**
-		 * Normalize frame method
-		 *
-		 * Cuts from render area the vertical/horizontal
-		 * lines, which doesn't have any entities.
-		 *
-		 * */
-
-
-
-	}
-
-	getDrawAreaInfo(game, offset=new Coordinates(0, 0), isNeedCheckFrame=true) {
+	getDrawAreaInfo(game, offset=new Coordinates(0, 0)) {
 		let res = new Map();
 		let startY = this.coordinates.y - Math.floor(this.sizeY / 2);
 		let startX = this.coordinates.x - Math.floor(this.sizeX / 2);

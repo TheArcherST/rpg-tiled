@@ -4,9 +4,12 @@ import Coordinates from "../../../coordinates.js";
 import {eventsObserver, Event} from "../../../eventsObserver.js";
 
 export default class Default extends State {
-	constructor() {
+	constructor(initialScore) {
 		super();
+		this.score = initialScore;
 	}
 
-
+	notifyScoreIncrease() {
+		this.score += 1;
+	}
 }

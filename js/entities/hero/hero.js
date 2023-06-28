@@ -11,6 +11,7 @@ export default class Hero extends Entity {
 	}
 
 	draw(ctx) {
-		ctx.drawImage(this.Img, this.coordinates.x * this.tileSize, this.coordinates.y * this.tileSize, this.tileSize, this.tileSize);
+		ctx.drawImage(this.Img, this.coordinates.x * this.tileSize, this.coordinates.y * this.tileSize,
+			this.tileSize*0.7, this.tileSize);
 	}
 }

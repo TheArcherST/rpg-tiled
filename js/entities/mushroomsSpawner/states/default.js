@@ -2,7 +2,7 @@ import State from "../../../state.js";
 import {CollisionResult} from "../../../entity.js";
 import Coordinates from "../../../coordinates.js";
 import {eventsObserver, Event} from "../../../eventsObserver.js";
-import Mushroom  from "./../../mushroom/mushroom.js"
+import Key  from "../../key/key.js"
 
 
 export default class Default extends State {
