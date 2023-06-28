@@ -25,6 +25,9 @@ export default class RunTo extends State {
 			this.targetPosition = game.normalizePageCoordinates(
 				new Coordinates(event.pageX, event.pageY)
 			);
+			if (this.targetPosition === null) {
+				return new Stay();
+			}
 		}
 	}
 
