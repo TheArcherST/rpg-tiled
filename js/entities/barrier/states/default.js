@@ -8,7 +8,7 @@ export default class Default extends State {
     constructor() {
         super();
     }
-    update(game, entity) {
+    update(game, entity, ticks) {
     }
     resolveCollision(game, entity, invadedEntity) {
         return CollisionResult.NO_WAY;

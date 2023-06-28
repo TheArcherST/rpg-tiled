@@ -12,8 +12,8 @@ export class PhantomEntity {
 		this.state = initialState;
 	}
 
-	update(game) {
-		this.state.update(game, this);
+	update(game, ticks) {
+		this.state.update(game, this, ticks);
 	}
 
 	draw(ctx) { }

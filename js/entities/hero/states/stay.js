@@ -22,12 +22,12 @@ export default class Stay extends State {
 
 		return new Run(
 			[direction],
-			0.2,
+			0.15,
 			Object.assign({}, entity.coordinates),
 		);
 	}
 
-	update(game, entity) {
+	update(game, entity, ticks) {
 
 	}
 }

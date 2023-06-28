@@ -12,11 +12,12 @@ export default class Default extends State {
 		this.counter = 0;
 	}
 
-	update(game) {
+	update(game, entity, ticks) {
 		this.counter++;
 		if (this.counter > 100) {
 			this.counter = 0;
-			this.#spawn(game);
+			// todo:
+			//this.#spawn(game);
 		}
 	}
 

@@ -15,60 +15,47 @@ export default class GameBuilder {
 		this.heroImg.src = './img/tiles/player.png'
 
 		this.barrierImg = new Image();
-		this.barrierImg.src = "./img/tiles/barrier.png";
+		this.barrierImg.src = "./img/tiles/barrier1.png";
 
 		this.roadImg = new Image();
 		this.roadImg.src = "./img/tiles/road.png";
 
 		this.mushrromImg = new Image();
-		this.mushrromImg.src = "./img/tiles/mushroom.png";
+		this.mushrromImg.src = "./img/tiles/key.png";
 	}
 
-	map = [
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	]
-
-	createEntities() {
+	createEntities(rawEntities) {
 		let entities = [];
-
-		for (let i = 0; i < this.map.length; i++) {
-			for (let j = 0; j < this.map[i].length; j++) {
-				let coordinates = new Coordinates(j, i);
-
-				switch (this.map[i][j]) {
-					case 0:
-						entities.push(new Barrier(this.barrierImg, coordinates, this.tileSize));
-						break;
-					case 1:
-						entities.push(new Road(this.roadImg, coordinates, this.tileSize));
-						break;
-				}
+		rawEntities.forEach(i => {
+			let coordinates = new Coordinates(i.coordinates.x, i.coordinates.y);
+			let e;
+			switch (i.type) {
+				case 'road':
+					e = this.createRoad(coordinates)
+					break;
+				case 'wall':
+					e = this.createWall(coordinates);
+					break;
+				case 'hole':
+					e = this.createWall(coordinates);
+					break;
+				case 'unstable_road':
+					e = this.createRoad(coordinates);
+					break;
+				case 'spawn':
+					// e = this.createHero(coordinates);
+					break;
+				case 'endpoint':
+					e = this.createWall(coordinates);
+					break;
+				case 'key':
+					e = this.createMushroom(coordinates);
+					break;
 			}
-		}
-
-		[new Coordinates(2, 2), new Coordinates(3, 2)].forEach(coordinates => {
-			entities.push(new Mushroom(this.mushrromImg, coordinates, this.tileSize))
+			if (e) {
+				entities.push(e);
+			}
 		})
-
 		return entities;
 	}
 
@@ -94,5 +81,13 @@ export default class GameBuilder {
 
 	createCamera(coordinates, boundedEntity, sizeX, sizeY) {
 		return new Camera(coordinates, boundedEntity, sizeX, sizeY);
+	}
+
+	createRoad(coordinates) {
+		return new Road(this.roadImg, coordinates, this.tileSize);
+	}
+
+	createWall(coordinates) {
+		return new Barrier(this.barrierImg, coordinates, this.tileSize);
 	}
 }

@@ -5,8 +5,6 @@ import Default from "./states/default.js";
 export default class Score extends Entity {
 	constructor(image, coordinates, tileSize) {
 		super(coordinates, new Default());
-		this.tileSize = tileSize;
-		this.playerImg = image;
 	}
 
 	draw(ctx) {

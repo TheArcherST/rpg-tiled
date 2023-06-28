@@ -75,7 +75,7 @@ export default class Run extends State {
 		}
 	}
 
-	update(game, entity) {
+	update(game, entity, ticks) {
 		let currentOffset = Object.assign({}, this.offset);
 
 		let direction = this.directions.pop()
@@ -83,18 +83,21 @@ export default class Run extends State {
 
 		switch (direction) {
 			case 'up':
-				currentOffset.y -= this.speed;
+				currentOffset.y -= this.speed * ticks;
 				break;
 			case 'down':
-				currentOffset.y += this.speed;
+				currentOffset.y += this.speed * ticks;
 				break;
 			case 'left':
-				currentOffset.x -= this.speed;
+				currentOffset.x -= this.speed * ticks;
 				break;
 			case 'right':
-				currentOffset.x += this.speed;
+				currentOffset.x += this.speed * ticks;
 				break;
 		}
+
+		currentOffset.x = Math.round(currentOffset.x * 100) / 100;
+		currentOffset.y = Math.round(currentOffset.y * 100) / 100;
 
 		let maximizedOffset = maximizeOffset(currentOffset);
 		let currentCoordinate = coordsSum(this.initialCoordinates, maximizedOffset);
@@ -106,6 +109,5 @@ export default class Run extends State {
 	}
 
 	enter(game, entity) {
-		// this.update(game, entity);
 	}
 }

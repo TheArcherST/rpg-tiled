@@ -3,7 +3,7 @@ import Coordinates from "./coordinates.js";
 import {CollisionResult} from "./entity.js";
 
 
-function getCoordTargetPos(coord, areaInfo) {
+export function getCoordTargetPos(coord, areaInfo) {
 	let res = null;
 	let n = 0;
 	Array.from(areaInfo.values()).forEach(i => {
@@ -14,6 +14,32 @@ function getCoordTargetPos(coord, areaInfo) {
 		n++;
 	})
 	return res;
+}
+
+
+export function getExtremeCoordinates(allCoordinates) {
+	let baseCoord  = allCoordinates[0];
+	let maxX, maxY, minX, minY;
+	maxX = baseCoord.x;
+	minX = baseCoord.x;
+	maxY = baseCoord.y;
+	minY = baseCoord.y;
+
+	allCoordinates.forEach(i => {
+		if (maxX < i.x) {
+			maxX = i.x;
+		}
+		if (maxY < i.y) {
+			maxY = i.y;
+		}
+		if (minX > i.x) {
+			minX = i.x;
+		}
+		if (minY > i.y) {
+			minY = i.y;
+		}
+	})
+	return [new Coordinates(minX, minY), new Coordinates(maxX, maxY)];
 }
 
 
@@ -35,8 +61,10 @@ export default class Game {
 	}
 
 	draw(ctx) {
+		let old = ctx.imageSmoothingEnabled;
+		ctx.imageSmoothingEnabled = false;
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-		let drawAreaInfo = this.camera.getDrawAreaInfo();
+		let drawAreaInfo = this.camera.getDrawAreaInfo(this);
 		[...this.entities, this.hero].forEach(entity => {
 			if ("coordinates" in entity) {
 				let coord = getCoordTargetPos(entity.coordinates, drawAreaInfo);
@@ -48,26 +76,30 @@ export default class Game {
 				}
 			}
 		});
+		ctx.imageSmoothingEnabled = old;
 	}
 
 	handleInput(game, event) {
 		this.hero.handleInput(game, event);
 	}
 
-	update() {
+	update(ticks) {
 		this.entities.forEach(element => {
-			element.update(this);
+			element.update(this, ticks);
 		})
-		this.hero.update(this);
-		this.spawner.update(this);
-		this.camera.update(this);
+		this.hero.update(this, ticks);
+		this.spawner.update(this, ticks);
+		this.camera.update(this, ticks);
 	}
 
 	run(ctx, update_rate) {
-		setInterval(() => {
-			this.update()
-			this.draw(ctx)
-		}, 1000/update_rate);
+		let ticks = 2;
+		let start = new Date();
+		this.update(ticks);
+		this.draw(ctx);
+		let end = new Date();
+		let diff = end-start;
+		setTimeout(() => {this.run(ctx, update_rate)}, 1000/update_rate - diff)
 	}
 
 	getEntitiesAt(coordinates) {
