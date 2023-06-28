@@ -4,10 +4,9 @@ import Stay from "./states/stay.js";
 
 export default class Hero extends Entity {
 	constructor(coordinates, image, tileSize) {
-		super(coordinates);
+		super(coordinates, new Stay());
 		this.tileSize = tileSize;
 		this.Img = image;
-		this.state = new Stay();
 	}
 
 	draw(ctx) {

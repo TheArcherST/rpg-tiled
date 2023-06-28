@@ -36,6 +36,15 @@ function loadAll(entities) {
 	window.addEventListener('keyup', (event) => {
 		game.handleInput(game, event);
 	})
+	document.addEventListener('mouseup', (event) => {
+		game.handleInput(game, event);
+	})
+	window.addEventListener('mousedown', (event) => {
+		game.handleInput(game, event);
+	})
+	window.addEventListener('mousemove', (event) => {
+		game.handleInput(game, event);
+	})
 	registerGameRestartListener();
 	game.run(ctx, 40);
 }

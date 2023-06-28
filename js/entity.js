@@ -15,7 +15,6 @@ export class PhantomEntity {
 	update(game, ticks) {
 		let state = this.state.update(game, this, ticks);
 		if (state instanceof State) {
-			console.log(state);
 			this.state.exit(game, this);
 			this.state = state;
 			state.enter(game, this);

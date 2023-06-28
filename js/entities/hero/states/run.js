@@ -5,7 +5,7 @@ import Coordinates from "../../../coordinates.js";
 
 
 
-function modCeil(n) {
+export function modCeil(n) {
 	if (n >= 0) {
 		return Math.ceil(n);
 	} else {
@@ -14,17 +14,28 @@ function modCeil(n) {
 }
 
 
-function maximizeOffset(offset) {
+export function coordsMapF(coordinates, func) {
 	return new Coordinates(
-		modCeil(offset.x), modCeil(offset.y)
-	)
+		func(coordinates.x), func(coordinates.y)
+	);
+}
+
+export function maximizeOffset(offset) {
+	return coordsMapF(offset, modCeil);
 }
 
 
-function coordsSum(coord1, coord2) {
+export function coordsSum(coord1, coord2) {
 	return new Coordinates(
 		coord1.x + coord2.x,
 		coord1.y + coord2.y
+	);
+}
+
+export function coordsSub(coord1, coord2) {
+	return new Coordinates(
+		coord1.x - coord2.x,
+		coord1.y - coord2.y
 	);
 }
 
@@ -94,6 +105,8 @@ export default class Run extends State {
 			case 'right':
 				currentOffset.x += this.speed * ticks;
 				break;
+			default:
+				throw Error(`Unknown direction ${direction}`)
 		}
 
 		currentOffset.x = Math.round(currentOffset.x * 100) / 100;

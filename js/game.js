@@ -1,6 +1,7 @@
 import Hero from "./entities/hero/hero.js";
 import Coordinates from "./coordinates.js";
 import Entity, {CollisionResult, PhantomEntity} from "./entity.js";
+import {coordsMapF} from "./entities/hero/states/run.js";
 
 
 export function getCoordTargetPos(coord, areaInfo) {
@@ -9,6 +10,20 @@ export function getCoordTargetPos(coord, areaInfo) {
 	Array.from(areaInfo.values()).forEach(i => {
 		if (i.x === coord.x && i.y === coord.y) {
 			res = Array.from(areaInfo.keys())[n];
+			return null;
+		}
+		n++;
+	})
+	return res;
+}
+
+
+export function getCoordSourcePos(coord, areaInfo) {
+	let res = null;
+	let n = 0;
+	Array.from(areaInfo.keys()).forEach(i => {
+		if (i.x === coord.x && i.y === coord.y) {
+			res = Array.from(areaInfo.values())[n];
 			return null;
 		}
 		n++;
@@ -169,5 +184,25 @@ export default class Game {
 
 	notifyWin() {
 		this.menu.notifyWin();
+	}
+
+	#getOffset(el) {
+		const rect = el.getBoundingClientRect();
+		return {
+			left: rect.left + window.scrollX,
+			top: rect.top + window.scrollY
+		};
+	}
+
+	normalizePageCoordinates(coordinates) {
+		let canvasPos = this.#getOffset(document.getElementById("game"));
+		coordinates = Object.assign({}, coordinates);
+		coordinates.x -= canvasPos.left;
+		coordinates.y -= canvasPos.top;
+		coordinates.x /= this.tileSize;
+		coordinates.y /= this.tileSize;
+		coordinates = coordsMapF(coordinates, Math.floor);
+		let drawAreaInfo = this.camera.getDrawAreaInfo(this);
+		return  getCoordSourcePos(coordinates, drawAreaInfo);
 	}
 }
