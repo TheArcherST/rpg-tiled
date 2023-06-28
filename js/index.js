@@ -11,18 +11,19 @@ function createGame(rawEntities) {
 	let builder = new GameBuilder(tileSize);
 	let entities = builder.createEntities(rawEntities);
 	let hero = builder.createHero(new Coordinates(7, 7));
-	let roadCoordinates = [];
-	entities.forEach(i => {
-		if (i instanceof Road) {
-			roadCoordinates.push(i.coordinates);
-		}
-	})
-	let spawner = builder.createMushroomSpawner(roadCoordinates);
 	let camera = builder.createCamera(hero.coordinates, hero, 10, 10);
-	let score = builder.createScore()
-	return new Game(tileSize, entities, hero, builder, spawner, camera, score);
+	let score = builder.createScoreboard();
+	let menu = builder.createMenu();
+	return new Game(tileSize, entities, hero, builder, camera, score, menu);
 }
 
+
+function registerGameRestartListener() {
+	let menuRestartButton = document.getElementById("button_play_again");
+	menuRestartButton.addEventListener('click', e => {
+		location.reload();
+	})
+}
 
 function loadAll(entities) {
 	const game = createGame(entities);
@@ -35,7 +36,7 @@ function loadAll(entities) {
 	window.addEventListener('keyup', (event) => {
 		game.handleInput(game, event);
 	})
-
+	registerGameRestartListener();
 	game.run(ctx, 40);
 }
 

@@ -5,11 +5,10 @@ import Coordinates from "../../coordinates.js";
 
 export default class Camera extends Entity {
 	constructor(coordinates, boundedEntity, sizeX, sizeY) {
-		super(coordinates);
+		super(coordinates, new Default());
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.boundedEntity = boundedEntity;
-		this.state = new Default();
 	}
 
 	draw(ctx) {

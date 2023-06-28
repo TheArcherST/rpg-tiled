@@ -49,17 +49,18 @@ export default class Game {
 		entities,
 		hero,
 		builder,
-		spawner,
 		camera,
 		score,
+		menu,
 	) {
 		this.tileSize = tileSize;
 		this.entities = entities;
 		this.hero = hero;
 		this.builder = builder;
-		this.spawner = spawner;
 		this.camera = camera;
 		this.score = score;
+		this.menu = menu;
+		this.entities.push(this.hero, this.score, this.menu, this.camera);
 	}
 
 	draw(ctx) {
@@ -67,7 +68,10 @@ export default class Game {
 		ctx.imageSmoothingEnabled = false;
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		let drawAreaInfo = this.camera.getDrawAreaInfo(this);
-		[...this.entities, this.hero, this.score].forEach(entity => {
+		this.entities.forEach(entity => {
+			if (entity.isVisible === false) {
+				return;
+			}
 			if (entity instanceof Entity) {
 				let coord = getCoordTargetPos(entity.coordinates, drawAreaInfo);
 				if (coord !== null) {
@@ -93,9 +97,13 @@ export default class Game {
 		this.entities.forEach(element => {
 			element.update(this, ticks);
 		})
-		this.hero.update(this, ticks);
-		this.spawner.update(this, ticks);
-		this.camera.update(this, ticks);
+		this.checkIsWin();
+	}
+
+	checkIsWin() {
+		if (this.score.isWin()) {
+			this.menu.notifyWin();
+		}
 	}
 
 	run(ctx, update_rate) {
@@ -111,6 +119,9 @@ export default class Game {
 	getEntitiesAt(coordinates) {
 		let result = [];
 		this.entities.forEach(val => {
+			if (val.isVisible !== true) {
+				return;
+			}
 			if (val.coordinates.x === coordinates.x && val.coordinates.y === coordinates.y) {
 				result.push(val)
 			}
@@ -148,6 +159,15 @@ export default class Game {
 	}
 
 	notifyKeyPick() {
-		this.score.state.notifyScoreIncrease();
+		if (!this.score.isBagFilled()) {
+			this.score.notifyBagIncrease();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	notifyWin() {
+		this.menu.notifyWin();
 	}
 }

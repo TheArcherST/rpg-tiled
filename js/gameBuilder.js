@@ -3,9 +3,10 @@ import Barrier from "./entities/barrier/barrier.js";
 import Road from "./entities/road/road.js";
 import Hero from "./entities/hero/hero.js";
 import Key from "./entities/key/key.js";
-import MushroomsSpawner from "./entities/mushroomsSpawner/mushroomsSpawner.js";
 import Camera from "./entities/camera/camera.js";
-import Score from "./entities/score/score.js";
+import Scoreboard from "./entities/scoreboard/scoreboard.js";
+import Chest from "./entities/chest/chest.js";
+import Menu from "./entities/menu/menu.js";
 
 
 export default class GameBuilder {
@@ -23,6 +24,9 @@ export default class GameBuilder {
 
 		this.mushrromImg = new Image();
 		this.mushrromImg.src = "./img/tiles/key.png";
+
+		this.chestImg = new Image();
+		this.chestImg.src = "./img/tiles/chest.png";
 	}
 
 	createEntities(rawEntities) {
@@ -47,7 +51,7 @@ export default class GameBuilder {
 					// e = this.createHero(coordinates);
 					break;
 				case 'endpoint':
-					e = this.createWall(coordinates);
+					e = this.createChest(coordinates);
 					break;
 				case 'key':
 					e = this.createMushroom(coordinates);
@@ -76,10 +80,6 @@ export default class GameBuilder {
 		)
 	}
 
-	createMushroomSpawner(possibleCoordinates) {
-		return new MushroomsSpawner(possibleCoordinates);
-	}
-
 	createCamera(coordinates, boundedEntity, sizeX, sizeY) {
 		return new Camera(coordinates, boundedEntity, sizeX, sizeY);
 	}
@@ -92,7 +92,15 @@ export default class GameBuilder {
 		return new Barrier(this.barrierImg, coordinates, this.tileSize);
 	}
 
-	createScore() {
-		return new Score();
+	createScoreboard() {
+		return new Scoreboard(3, 5);
+	}
+
+	createChest(coordinates) {
+		return new Chest(this.chestImg, coordinates, this.tileSize);
+	}
+
+	createMenu() {
+		return new Menu();
 	}
 }

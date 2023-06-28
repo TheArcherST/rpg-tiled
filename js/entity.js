@@ -13,7 +13,13 @@ export class PhantomEntity {
 	}
 
 	update(game, ticks) {
-		this.state.update(game, this, ticks);
+		let state = this.state.update(game, this, ticks);
+		if (state instanceof State) {
+			console.log(state);
+			this.state.exit(game, this);
+			this.state = state;
+			state.enter(game, this);
+		}
 	}
 
 	draw(ctx) { }
@@ -22,7 +28,6 @@ export class PhantomEntity {
 		let state = this.state.handleInput(game, this, event);
 
 		if (state !== undefined) {
-			console.log(state);
 			this.state.exit(game, this);
 			this.state = state;
 			state.enter(game, this);
@@ -37,6 +42,7 @@ export default class Entity extends PhantomEntity {
 	constructor(coordinates, state=new State()) {
 		super(state)
 		this.coordinates = coordinates;
+		this.isVisible = true;
 	}
 
 	resolveCollision(game, invadedEntity) {
