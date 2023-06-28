@@ -5,6 +5,41 @@ import Coordinates from "./coordinates.js";
 import Road from "./entities/road/road.js";
 
 
+function touchHandler(event)
+{
+	var touches = event.changedTouches,
+		first = touches[0],
+		type = "";
+	switch(event.type)
+	{
+		case "touchstart": type = "mousedown"; break;
+		case "touchmove":  type = "mousemove"; break;
+		case "touchend":   type = "mouseup";   break;
+		default:           return;
+	}
+
+	// initMouseEvent(type, canBubble, cancelable, view, clickCount,
+	//                screenX, screenY, clientX, clientY, ctrlKey,
+	//                altKey, shiftKey, metaKey, button, relatedTarget);
+
+	var simulatedEvent = document.createEvent("MouseEvent");
+	simulatedEvent.initMouseEvent(type, true, true, window, 1,
+		first.screenX, first.screenY,
+		first.clientX, first.clientY, false,
+		false, false, false, 0/*left*/, null);
+
+	first.target.dispatchEvent(simulatedEvent);
+	event.preventDefault();
+}
+
+function initTouchEventsMapper()
+{
+	document.addEventListener("touchstart", touchHandler, true);
+	document.addEventListener("touchmove", touchHandler, true);
+	document.addEventListener("touchend", touchHandler, true);
+	document.addEventListener("touchcancel", touchHandler, true);
+}
+
 
 function createGame(rawEntities) {
 	const tileSize = 64;
@@ -30,12 +65,16 @@ function loadAll(entities) {
 	const canvas = document.getElementById('game');
 	const ctx = canvas.getContext('2d');
 
+
 	window.addEventListener('keydown', (event) => {
 		game.handleInput(game, event);
 	})
 	window.addEventListener('keyup', (event) => {
 		game.handleInput(game, event);
 	})
+
+	initTouchEventsMapper();
+
 	document.addEventListener('mouseup', (event) => {
 		game.handleInput(game, event);
 	})
