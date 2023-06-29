@@ -29,13 +29,20 @@ canvas {
 
 .scoreboard-box {
 	position: absolute;
-	left: 80%;
+	left: 70%;
 	top: 50px;
-	font-size: 30px;
+	font-size: 20px;
 	font-family: LcdSolid;
 	display: flex;
 	flex-direction: column;
 	z-index: 2;
+}
+
+@media screen and (min-width: 800px) {
+	.scoreboard-box {
+		left: 80%;
+		font-size: 30px;
+	}
 }
 .scoreboard-property-box {
 	display: flex;

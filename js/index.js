@@ -42,7 +42,7 @@ function initTouchEventsMapper()
 
 
 function createGame(rawEntities) {
-	const tileSize = 64;
+	const tileSize = 16;
 	let builder = new GameBuilder(tileSize);
 	let entities = builder.createEntities(rawEntities);
 	let hero = builder.createHero(new Coordinates(10, 6));

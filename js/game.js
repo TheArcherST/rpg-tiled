@@ -76,9 +76,22 @@ export default class Game {
 		this.score = score;
 		this.menu = menu;
 		this.entities.push(this.hero, this.score, this.menu, this.camera);
+		this.currentScale = 1;
+	}
+
+	updateScreenMatching(ctx) {
+		let needWidth = this.camera.sizeX * this.tileSize;
+		if (window.innerWidth > 800) {
+			needWidth *= 1.6;
+		}
+		let actualWidth = needWidth * this.currentScale;
+		const diffCoff = Math.floor(window.innerWidth / actualWidth);
+		ctx.scale(diffCoff, diffCoff);
+		this.currentScale *= diffCoff;
 	}
 
 	draw(ctx) {
+		this.updateScreenMatching(ctx);
 		let old = ctx.imageSmoothingEnabled;
 		ctx.imageSmoothingEnabled = false;
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
