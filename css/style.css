@@ -13,9 +13,13 @@
 	width: 100%;
 	text-align: center;
 }
-
 canvas {
-	margin: 50px;
+	margin: 0;
+}
+@media screen and (min-width: 800px) {
+	canvas {
+		margin: 50px;
+	}
 }
 
 .scoreboard-box {
