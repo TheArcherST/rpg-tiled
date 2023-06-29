@@ -212,8 +212,8 @@ export default class Game {
 		coordinates = Object.assign({}, coordinates);
 		coordinates.x -= canvasPos.left;
 		coordinates.y -= canvasPos.top;
-		coordinates.x /= this.tileSize;
-		coordinates.y /= this.tileSize;
+		coordinates.x /= this.tileSize * this.currentScale;
+		coordinates.y /= this.tileSize * this.currentScale;
 		coordinates = coordsMapF(coordinates, Math.floor);
 		let drawAreaInfo = this.camera.getDrawAreaInfo(this);
 		return  getCoordSourcePos(coordinates, drawAreaInfo);
