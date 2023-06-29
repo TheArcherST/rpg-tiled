@@ -45,7 +45,7 @@ function createGame(rawEntities) {
 	const tileSize = 64;
 	let builder = new GameBuilder(tileSize);
 	let entities = builder.createEntities(rawEntities);
-	let hero = builder.createHero(new Coordinates(7, 7));
+	let hero = builder.createHero(new Coordinates(10, 6));
 	let camera = builder.createCamera(hero.coordinates, hero, 10, 10);
 	let score = builder.createScoreboard();
 	let menu = builder.createMenu();
