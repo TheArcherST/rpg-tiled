@@ -82,7 +82,7 @@ export default class Game {
 	updateScreenMatching(ctx) {
 		let needWidth = this.camera.sizeX * this.tileSize;
 		if (window.innerWidth > 800) {
-			needWidth *= 1.6;
+			needWidth *= 2;
 		}
 		let actualWidth = needWidth * this.currentScale;
 		const diffCoff = Math.floor(window.innerWidth / actualWidth);
